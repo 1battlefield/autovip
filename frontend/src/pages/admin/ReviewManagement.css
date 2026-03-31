@@ -1,0 +1,26 @@
+.review-management h1 {
+    margin-bottom: 30px;
+}
+
+.filter-bar {
+    margin-bottom: 20px;
+}
+
+.filter-bar select {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px;
+    background: white;
+    border-radius: 10px;
+}
+
+.empty-state p {
+    font-size: 16px;
+    color: #666;
+}
