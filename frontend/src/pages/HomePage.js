@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../config/api';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/AuthContext';
 
@@ -61,7 +61,7 @@ const HomePage = () => {
   const fetchData = async () => {
     try {
         // Lấy tất cả xe
-        const carsRes = await axios.get('http://localhost:5000/api/cars');
+        const carsRes = await API.get('/api/cars');
         const allCarsData = carsRes.data.data || carsRes.data;
         console.log('Tất cả xe từ API:', allCarsData.length);
         setAllCars(allCarsData);
@@ -70,7 +70,7 @@ const HomePage = () => {
         setCars(allCarsData.slice(0, 6));
         
         // Lấy danh sách thương hiệu
-        const brandsRes = await axios.get('http://localhost:5000/api/brands');
+        const brandsRes = await API.get('/api/brands');
         setBrands(brandsRes.data.data || brandsRes.data);
         
         setLoading(false);
@@ -91,7 +91,7 @@ const HomePage = () => {
 
     setIsSearching(true);
     try {
-        const res = await axios.get(`http://localhost:5000/api/cars/search?keyword=${keyword}`);
+        const res = await API.get(`/api/cars/search?keyword=${keyword}`);
         console.log('API trả về:', res.data);
         
         const results = res.data.data || [];
@@ -138,7 +138,7 @@ const filterByBrand = (brand) => {
         return;
     }
     try {
-        const res = await axios.get(`http://localhost:5000/api/cars/${id}`);
+        const res = await API.get(`/api/cars/${id}`);
         console.log('Dữ liệu xe:', res.data);
         setSelectedCar(res.data.data || res.data);
     } catch (error) {
@@ -165,7 +165,7 @@ const filterByBrand = (brand) => {
       return;
     }
     try {
-      await axios.post('http://localhost:5000/api/cart', { car_id: carId });
+      await API.post('/api/cart', { car_id: carId });
       alert('Đã thêm vào giỏ hàng!');
     } catch (error) {
       alert('Lỗi: ' + (error.response?.data?.message || 'Thêm vào giỏ thất bại'));
@@ -309,7 +309,7 @@ const filterByBrand = (brand) => {
                 <div key={car.id} className="car-card">
                   <div className="car-image">
                     <img 
-                      src={car.image_url || '/images/placeholder-car.jpg'} 
+                      src={car.image_url || '/placeholder-car.jpg'} 
                       alt={car.name}
                       onError={(e) => {
                           e.target.src = '/images/placeholder-car.jpg';

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../components/AuthContext';
-import axios from 'axios';
+import API from '../config/api';
 import './UserProfilePage.css';
 
 const SvgWrapper = ({ children, size = 18, color = "currentColor", fill = "none", style }) => (
@@ -47,7 +47,7 @@ const UserProfilePage = () => {
     const fetchOrders = async () => {
         setLoading(true);
         try {
-            const res = await axios.get('http://localhost:5000/api/orders');
+            const res = await API.get('/api/orders');
             setOrders(res.data.orders || []);
         } catch (error) {
             console.error('Lỗi tải đơn hàng:', error);
@@ -58,7 +58,7 @@ const UserProfilePage = () => {
 
     const fetchTestDrives = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/user/testdrives');
+            const res = await API.get('/api/user/testdrives');
             setTestDrives(res.data || []);
         } catch (error) {
             console.error('Lỗi tải lịch lái thử:', error);
@@ -67,7 +67,7 @@ const UserProfilePage = () => {
 
     const fetchReviews = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/user/reviews');
+            const res = await API.get('/api/user/reviews');
             setReviews(res.data.reviews || []);
         } catch (error) {
             console.error('Lỗi tải đánh giá:', error);
@@ -76,7 +76,7 @@ const UserProfilePage = () => {
 
     const viewOrderDetail = async (orderId) => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/orders/${orderId}`);
+            const res = await API.get(`/api/orders/${orderId}`);
             setSelectedOrder(res.data.order);
         } catch (error) {
             console.error('Lỗi tải chi tiết:', error);

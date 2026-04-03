@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../../config/api';
 
 const NewsManagement = () => {
   const [news, setNews] = useState([]);
@@ -19,7 +19,7 @@ const NewsManagement = () => {
 
   const fetchNews = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/news');
+      const res = await API.get('/api/admin/news');
       setNews(res.data);
       setLoading(false);
     } catch (error) {
@@ -39,10 +39,10 @@ const NewsManagement = () => {
     e.preventDefault();
     try {
       if (editingNews) {
-        await axios.put(`http://localhost:5000/api/admin/news/${editingNews.id}`, formData);
+        await API.put(`/api/admin/news/${editingNews.id}`, formData);
         alert('Cập nhật tin tức thành công!');
       } else {
-        await axios.post('http://localhost:5000/api/admin/news', formData);
+        await API.post('/api/admin/news', formData);
         alert('Thêm tin tức thành công!');
       }
       setShowForm(false);
@@ -63,7 +63,7 @@ const NewsManagement = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Bạn có chắc muốn xóa tin tức này?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/admin/news/${id}`);
+        await API.delete(`/api/admin/news/${id}`);
         alert('Xóa tin tức thành công!');
         fetchNews();
       } catch (error) {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import API from '../config/api';
 import { useAuth } from '../components/AuthContext';
 
 const TestDrivePage = () => {
@@ -31,7 +31,7 @@ const TestDrivePage = () => {
 
   const fetchCarDetail = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/cars/${carId}`);
+      const res = await API.get(`/api/cars/${carId}`);
       setCar(res.data.data || res.data);
       setLoading(false);
     } catch (error) {
@@ -56,7 +56,7 @@ const TestDrivePage = () => {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/testdrive', {
+      await API.post('/api/testdrive', {
         ...formData,
         car_id: carId
       });

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../../config/api';
 
 const ContactManagement = () => {
   const [contacts, setContacts] = useState([]);
@@ -13,7 +13,7 @@ const ContactManagement = () => {
 
   const fetchContacts = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/contacts');
+      const res = await API.get('/api/admin/contacts');
       setContacts(res.data);
       setLoading(false);
     } catch (error) {
@@ -24,7 +24,7 @@ const ContactManagement = () => {
 
   const handleMarkAsRead = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/admin/contacts/${id}/read`);
+      await API.put(`/api/admin/contacts/${id}/read`);
       fetchContacts();
     } catch (error) {
       alert('Lỗi: ' + (error.response?.data?.message || 'Cập nhật thất bại'));
@@ -38,7 +38,7 @@ const ContactManagement = () => {
     }
 
     try {
-      await axios.post(`http://localhost:5000/api/admin/contacts/${id}/reply`, {
+      await API.post(`/api/admin/contacts/${id}/reply`, {
         message: replyMessage
       });
       alert('Đã gửi phản hồi thành công!');

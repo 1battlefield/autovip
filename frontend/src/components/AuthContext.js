@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import axios from 'axios';
+import API from '../config/api';
 
 const AuthContext = createContext();
 
@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
             try {
                 const parsedUser = JSON.parse(userData);
                 setUser(parsedUser);
-                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                API.defaults.headers.common['Authorization'] = `Bearer ${token}`;
                 console.log('Đã khôi phục phiên đăng nhập:', parsedUser);
             } catch (error) {
                 console.error('Lỗi parse user data:', error);
@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
     const login = (token, userData) => {
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(userData));
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        API.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         setUser(userData);
         console.log('Đăng nhập thành công:', userData);
     };
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        delete axios.defaults.headers.common['Authorization'];
+        delete API.defaults.headers.common['Authorization'];
         setUser(null);
         console.log('Đã đăng xuất');
     };

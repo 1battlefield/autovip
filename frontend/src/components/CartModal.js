@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import API from '../config/api';
 import { useAuth } from './AuthContext';
 import './CartModal.css';
 
@@ -18,7 +18,7 @@ const CartModal = ({ isOpen, onClose, onCartUpdate }) => {
 
     const fetchCart = useCallback(async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/cart');
+            const res = await API.get('/api/cart');
             setCart(res.data);
             if (onCartUpdate) {
                 onCartUpdate(res.data.count || 0);
@@ -40,7 +40,7 @@ const CartModal = ({ isOpen, onClose, onCartUpdate }) => {
             return;
         }
         try {
-            await axios.put(`http://localhost:5000/api/cart/${cartId}`, { quantity });
+            await API.put(`/api/cart/${cartId}`, { quantity });
             await fetchCart();
         } catch (error) {
             console.error('Lỗi cập nhật:', error);
@@ -49,7 +49,7 @@ const CartModal = ({ isOpen, onClose, onCartUpdate }) => {
 
     const removeItem = async (cartId) => {
         try {
-            await axios.delete(`http://localhost:5000/api/cart/${cartId}`);
+            await API.delete(`/api/cart/${cartId}`);
             await fetchCart();
         } catch (error) {
             console.error('Lỗi xóa:', error);
@@ -60,7 +60,7 @@ const handleOrderSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-        const res = await axios.post('http://localhost:5000/api/orders', orderForm);
+        const res = await API.post('/api/orders', orderForm);
         if (res.data.success) {
             alert(`✅ Đặt hàng thành công! Mã đơn: ${res.data.order.order_code}`);
             onClose();

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../../config/api';
 import { Link } from 'react-router-dom';
 
 const SvgWrapper = ({ children, size = 18, color = "currentColor" }) => (
@@ -38,10 +38,10 @@ const Dashboard = () => {
         try {
             // Lấy số liệu thống kê
             const [carsRes, usersRes, testDrivesRes, ordersRes] = await Promise.all([
-                axios.get('http://localhost:5000/api/cars'),
-                axios.get('http://localhost:5000/api/admin/users'),
-                axios.get('http://localhost:5000/api/admin/testdrives'),
-                axios.get('http://localhost:5000/api/admin/orders/stats/summary')
+                API.get('/api/cars'),
+                API.get('/api/admin/users'),
+                API.get('/api/admin/testdrives'),
+                API.get('/api/admin/orders/stats/summary')
             ]);
 
             // Tính số xe

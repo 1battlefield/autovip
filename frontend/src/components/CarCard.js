@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import API from '../config/api';
 import './CarCard.css';
 
 const CarCard = ({ car, onViewDetail }) => {
@@ -24,18 +24,10 @@ const CarCard = ({ car, onViewDetail }) => {
 
         try {
             if (isFavorite) {
-                await axios.delete(`http://localhost:5000/api/favorites/${car.id}`, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
+                await API.delete(`/api/favorites/${car.id}`);
                 setIsFavorite(false);
             } else {
-                await axios.post(`http://localhost:5000/api/favorites/${car.id}`, {}, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
+                await API.post(`/api/favorites/${car.id}`, {});
                 setIsFavorite(true);
             }
         } catch (error) {

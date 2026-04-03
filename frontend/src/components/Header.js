@@ -3,7 +3,7 @@ import { useAuth } from './AuthContext';
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
 import CartModal from './CartModal';
-import axios from 'axios';
+import API from '../config/api';
 import './Header.css';
 
 const Header = () => {
@@ -45,10 +45,7 @@ const Header = () => {
 
     const fetchCartCount = async () => {
         try {
-            const token = localStorage.getItem('token');
-            const res = await axios.get('http://localhost:5000/api/cart', {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
+            const res = await API.get('/api/cart');
             setCartCount(res.data.count || 0);
         } catch (error) {
             console.error('Lỗi lấy số lượng giỏ hàng:', error);

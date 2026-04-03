@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../../config/api';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 // --- 1. ĐỊNH NGHĨA CÁC ICON SVG TÙY CHỈNH (ĐÃ TINH CHỈNH ĐẸP HƠN) ---
@@ -88,7 +88,7 @@ const CarManagement = () => {
 
     const fetchCars = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/cars');
+            const res = await API.get('/api/cars');
             setCars(res.data.data || res.data);
         } catch (error) {
             console.error('Lỗi tải xe:', error);
@@ -103,10 +103,10 @@ const CarManagement = () => {
         e.preventDefault();
         try {
             if (editingCar) {
-                await axios.put(`http://localhost:5000/api/admin/cars/${editingCar.id}`, formData);
+                await API.put(`/api/admin/cars/${editingCar.id}`, formData);
                 alert('Cập nhật xe thành công!');
             } else {
-                await axios.post('http://localhost:5000/api/admin/cars', formData);
+                await API.post('/api/admin/cars', formData);
                 alert('Thêm xe thành công!');
             }
             setShowForm(false);
@@ -126,7 +126,7 @@ const CarManagement = () => {
     const handleDelete = async (id) => {
         if (window.confirm('Bạn có chắc muốn xóa xe này?')) {
             try {
-                await axios.delete(`http://localhost:5000/api/admin/cars/${id}`);
+                await API.delete(`/api/admin/cars/${id}`);
                 alert('Xóa xe thành công!');
                 fetchCars();
             } catch (error) {

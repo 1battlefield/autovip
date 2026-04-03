@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import API from '../config/api';
 import { useAuth } from '../components/AuthContext';
 
 const CarDetailPage = () => {
@@ -21,7 +21,7 @@ const CarDetailPage = () => {
 
   const fetchCarDetail = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/cars/${id}`);
+      const res = await API.get(`/api/cars/${id}`);
       setCar(res.data.data || res.data);
       setLoading(false);
     } catch (error) {
@@ -32,7 +32,7 @@ const CarDetailPage = () => {
 
   const fetchReviews = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/cars/${id}/reviews`);
+      const res = await API.get(`/api/cars/${id}/reviews`);
       setReviews(res.data);
     } catch (error) {
       console.error('Lỗi tải đánh giá:', error);
@@ -55,7 +55,7 @@ const CarDetailPage = () => {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/reviews', {
+      await API.post('/api/reviews', {
         car_id: id,
         rating: userRating,
         comment: userComment

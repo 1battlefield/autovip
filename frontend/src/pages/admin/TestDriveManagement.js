@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../../config/api';
 
 // --- 1. ĐỊNH NGHĨA CÁC ICON SVG TÙY CHỈNH ---
 const SvgWrapper = ({ children, size = 18, color = "currentColor", className = "" }) => (
@@ -87,7 +87,7 @@ const TestDriveManagement = () => {
 
   const fetchTestDrives = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/testdrives');
+      const res = await API.get('/api/admin/testdrives');
       setTestDrives(res.data);
       setLoading(false);
     } catch (error) {
@@ -98,7 +98,7 @@ const TestDriveManagement = () => {
 
   const handleStatusChange = async (id, newStatus) => {
     try {
-      await axios.put(`http://localhost:5000/api/admin/testdrives/${id}/status`, { status: newStatus });
+      await API.put(`/api/admin/testdrives/${id}/status`, { status: newStatus });
       alert('Cập nhật trạng thái thành công!');
       fetchTestDrives();
     } catch (error) {

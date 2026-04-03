@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../../config/api';
 
 const ReviewManagement = () => {
     const [reviews, setReviews] = useState([]);
@@ -25,16 +25,12 @@ const ReviewManagement = () => {
                 return;
             }
 
-            let url = 'http://localhost:5000/api/admin/reviews';
+            let url = '/api/admin/reviews';
             if (filter !== 'all') {
                 url += `?status=${filter}`;
             }
             
-            const res = await axios.get(url, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const res = await API.get(url);
             
             console.log('API trả về:', res.data);
             
@@ -67,10 +63,8 @@ const ReviewManagement = () => {
     const handleApprove = async (id) => {
         if (window.confirm('Duyệt đánh giá này?')) {
             try {
-                const token = localStorage.getItem('token');
-                await axios.put(`http://localhost:5000/api/admin/reviews/${id}`, 
-                    { status: 'approved' },
-                    { headers: { 'Authorization': `Bearer ${token}` } }
+                await API.put(`/api/admin/reviews/${id}`, 
+                    { status: 'approved' }
                 );
                 alert('Đã duyệt đánh giá!');
                 fetchReviews();
@@ -83,10 +77,8 @@ const ReviewManagement = () => {
     const handleReject = async (id) => {
         if (window.confirm('Từ chối đánh giá này?')) {
             try {
-                const token = localStorage.getItem('token');
-                await axios.put(`http://localhost:5000/api/admin/reviews/${id}`, 
-                    { status: 'rejected' },
-                    { headers: { 'Authorization': `Bearer ${token}` } }
+                await API.put(`/api/admin/reviews/${id}`, 
+                    { status: 'rejected' }
                 );
                 alert('Đã từ chối đánh giá!');
                 fetchReviews();

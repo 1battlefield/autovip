@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../../config/api';
 
 // --- 1. ĐỊNH NGHĨA CÁC ICON SVG TÙY CHỈNH ---
 const SvgWrapper = ({ children, size = 18, color = "currentColor" }) => (
@@ -73,7 +73,7 @@ const UserManagement = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/users');
+      const res = await API.get('/api/admin/users');
       setUsers(res.data);
       setLoading(false);
     } catch (error) {
@@ -85,7 +85,7 @@ const UserManagement = () => {
   const handleRoleChange = async (userId, newRole) => {
     if (window.confirm(`Xác nhận đổi quyền thành ${newRole.toUpperCase()}?`)) {
       try {
-        await axios.put(`http://localhost:5000/api/admin/users/${userId}/role`, { role: newRole });
+        await API.put(`/api/admin/users/${userId}/role`, { role: newRole });
         alert('Cập nhật thành công!');
         fetchUsers();
       } catch (error) {
@@ -97,7 +97,7 @@ const UserManagement = () => {
   const handleDeleteUser = async (userId) => {
     if (window.confirm('Bạn có chắc chắn muốn xóa vĩnh viễn người dùng này?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/admin/users/${userId}`);
+        await API.delete(`/api/admin/users/${userId}`);
         alert('Đã xóa thành công!');
         fetchUsers();
       } catch (error) {

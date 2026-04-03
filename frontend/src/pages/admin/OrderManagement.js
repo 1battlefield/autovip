@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../../config/api';
 import './OrderManagement.css';
 
 const SvgWrapper = ({ children, size = 18, color = "currentColor", style }) => (
@@ -51,7 +51,7 @@ const OrderManagement = () => {
     const fetchOrders = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(`http://localhost:5000/api/admin/orders?status=${filter}`);
+            const res = await API.get(`/api/admin/orders?status=${filter}`);
             setOrders(res.data.orders || []);
         } catch (error) {
             console.error('Lỗi tải đơn hàng:', error);
@@ -62,7 +62,7 @@ const OrderManagement = () => {
 
     const fetchStats = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/admin/orders/stats/summary');
+            const res = await API.get('/api/admin/orders/stats/summary');
             setStats(res.data.stats);
         } catch (error) {
             console.error('Lỗi tải thống kê:', error);
@@ -72,7 +72,7 @@ const OrderManagement = () => {
     const updateOrderStatus = async (orderId, status) => {
         if (window.confirm(`Bạn có chắc muốn cập nhật trạng thái đơn hàng thành "${status}"?`)) {
             try {
-                await axios.put(`http://localhost:5000/api/admin/orders/${orderId}/status`, { status });
+                await API.put(`/api/admin/orders/${orderId}/status`, { status });
                 alert('Cập nhật trạng thái thành công!');
                 fetchOrders();
                 fetchStats();
@@ -84,7 +84,7 @@ const OrderManagement = () => {
 
     const viewOrderDetail = async (orderId) => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/admin/orders/${orderId}`);
+            const res = await API.get(`/api/admin/orders/${orderId}`);
             setSelectedOrder(res.data.order);
         } catch (error) {
             console.error('Lỗi tải chi tiết:', error);

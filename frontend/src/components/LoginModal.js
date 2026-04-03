@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import API from '../config/api';
 import { useAuth } from './AuthContext';
 import './AuthModal.css';
 
@@ -25,7 +25,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }) => {
         setLoading(true);
 
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/login', formData);
+            const res = await API.post('/api/auth/login', formData);
             
             if (res.data.success) {
                 login(res.data.token, res.data.user);
