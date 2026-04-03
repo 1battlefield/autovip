@@ -11,7 +11,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-<<<<<<< HEAD
 // Routes kiểm tra
 app.get('/', (req, res) => {
     res.json({ message: 'AutoVip API is running!', status: 'ok', time: new Date().toISOString() });
@@ -30,26 +29,27 @@ app.get('/api/db-test', (req, res) => {
     });
 });
 
-=======
->>>>>>> fe22f13b3f2f0480827b38f691c1f3cfab5bc8ae
-// Kết nối MySQL
-const db = mysql.createConnection({
+// Kết nối MySQL với Pool (giữ kết nối ổn định hơn)
+const db = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-<<<<<<< HEAD
     database: process.env.DB_NAME,
-    port: process.env.DB_PORT || 3306
-=======
-    database: process.env.DB_NAME
->>>>>>> fe22f13b3f2f0480827b38f691c1f3cfab5bc8ae
+    port: process.env.DB_PORT || 3306,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 0
 });
 
-db.connect((err) => {
+// Kiểm tra kết nối
+db.getConnection((err, connection) => {
     if (err) {
         console.error('Lỗi kết nối database:', err);
     } else {
         console.log('✅ Đã kết nối database thành công!');
+        connection.release();
     }
 });
 
@@ -114,18 +114,6 @@ app.get('/api/cars', (req, res) => {
     });
 });
 
-<<<<<<< HEAD
-=======
-// Hàm xem tất cả xe
-const showAllCars = () => {
-    console.log('Hiển thị tất cả xe, tổng số:', allCars.length);
-    setSelectedBrand(null);
-    setSearchResults(null);
-    setSearchKeyword('');
-    setCars(allCars); // Thay đổi: hiển thị tất cả xe, không chỉ 6 xe
-};
-
->>>>>>> fe22f13b3f2f0480827b38f691c1f3cfab5bc8ae
 // Lấy xe nổi bật (6 xe)
 app.get('/api/cars/featured', (req, res) => {
     db.query('SELECT * FROM cars ORDER BY id DESC LIMIT 6', (err, results) => {
@@ -148,11 +136,7 @@ app.get('/api/brands', (req, res) => {
     });
 });
 
-<<<<<<< HEAD
-// ========== API TÌM KIẾM ==========
-=======
 // ========== API TÌM KIẾM (ĐẶT TRƯỚC API /:id) ==========
->>>>>>> fe22f13b3f2f0480827b38f691c1f3cfab5bc8ae
 app.get('/api/cars/search', (req, res) => {
     const keyword = req.query.keyword;
     
@@ -176,11 +160,7 @@ app.get('/api/cars/search', (req, res) => {
     });
 });
 
-<<<<<<< HEAD
-// Lấy chi tiết 1 xe
-=======
 // Lấy chi tiết 1 xe (ĐẶT SAU API SEARCH)
->>>>>>> fe22f13b3f2f0480827b38f691c1f3cfab5bc8ae
 app.get('/api/cars/:id', (req, res) => {
     const id = req.params.id;
     
@@ -911,15 +891,6 @@ app.put('/api/admin/reviews/:id', authenticateToken, isAdmin, (req, res) => {
 
 // ==================== CHẠY SERVER ====================
 const PORT = process.env.PORT || 5000;
-<<<<<<< HEAD
-
 app.listen(PORT, () => {
     console.log(`🚀 Server đang chạy tại http://localhost:${PORT}`);
 });
-
-module.exports = app;
-=======
-app.listen(PORT, () => {
-    console.log(`🚀 Server đang chạy tại http://localhost:${PORT}`);
-});
->>>>>>> fe22f13b3f2f0480827b38f691c1f3cfab5bc8ae
