@@ -1,0 +1,154 @@
+/* Cars Layout */
+.cars-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 30px;
+}
+
+.cars-sidebar {
+    position: relative;
+}
+
+.cars-main {
+    width: 100%;
+}
+
+.cars-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.cars-header .section-title {
+    margin-bottom: 0;
+    font-size: 24px;
+}
+
+.cars-header .section-title:after {
+    display: none;
+}
+
+/* Car Actions */
+.car-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-buy {
+    flex: 1;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-buy:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+.btn-test {
+    flex: 1;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-test:hover {
+    background: #229954;
+    transform: translateY(-2px);
+}
+
+/* Detail Grid */
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.detail-item {
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.detail-item label {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.detail-item span {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.detail-item .price {
+    color: #e74c3c;
+    font-size: 18px;
+}
+
+.detail-description {
+    line-height: 1.6;
+    color: #666;
+    margin: 20px 0;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-actions button {
+    flex: 1;
+    padding: 12px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .cars-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .cars-sidebar {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .car-actions {
+        flex-direction: column;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+    }
+    
+    .cars-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
